@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://www.gstatic.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://images.unsplash.com; connect-src 'self' https://*.firebaseio.com wss://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://www.googleapis.com; frame-src https://skybridge-travels-database.firebaseapp.com; frame-ancestors 'self'; base-uri 'self'; object-src 'none'; form-action 'self';">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="index, follow">
+<title>SkyBridge Travels — Travel Abroad. Study. Work. Visit.</title>
+<meta name="description" content="SkyBridge Travels in Ho, Ghana: visa applications, work permits, study abroad, international recruitment, flight reservations and more.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo"><img src="logo.png" alt="SkyBridge Travels" class="logo-img"></a>
+    <button class="menu-btn" id="menuBtn"><i class="fas fa-bars"></i></button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html" class="active">Home</a>
+      <a href="services.html">Services</a><a href="tours.html">Tours</a>
+      <a href="destinations.html">Destinations</a>
+      <a href="jobs.html">Jobs</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="jobs.html" class="nav-cta">Apply for Jobs</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero hero-slider" id="homeHero">
+  <div class="hero-inner">
+    <div class="hero-tagline">Study. Work. Visit.</div>
+    <h1>Travel Abroad with<br>SkyBridge Travels</h1>
+    <p>Visa applications, work permits, study abroad, international recruitment and more — one trusted team in Ho, Ghana to take you from first consultation to departure.</p>
+    <div class="search-bar">
+      <input type="text" id="heroSearch" placeholder="Search destinations, tours or jobs...">
+      <select id="heroCategory">
+        <option value="all">All Categories</option>
+        <option value="destination">Destinations</option>
+        <option value="tour">Tours</option>
+        <option value="job">Jobs</option>
+      </select>
+      <button onclick="heroSearchAction()"><i class="fas fa-search"></i> Search</button>
+    </div>
+    <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:28px;">
+      <a href="services.html" class="btn btn-accent"><i class="fas fa-concierge-bell"></i> Our Services</a>
+      <a href="https://wa.me/233248313606" target="_blank" rel="noopener" class="btn btn-white"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
+      <a href="jobs.html" class="btn btn-outline" style="border-color:white;color:white;"><i class="fas fa-briefcase"></i> Find Jobs</a>
+    </div>
+    <div class="chip-label">What we can help you with</div>
+    <div class="chip-row" id="heroChips"></div>
+  </div>
+</section>
+
+<!-- OUR SERVICES -->
+<section class="section" id="services" style="background:white;">
+  <div class="section-inner">
+    <div class="section-head">
+      <div>
+        <h2>Our Services</h2>
+        <p>Everything you need to study, work or visit abroad — under one roof.</p>
+      </div>
+      <a href="services.html" class="btn btn-outline btn-sm">See all details <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="grid grid-4" id="servicesGrid"></div>
+  </div>
+</section>
+
+<!-- CONTACT BAND -->
+<section class="section" style="padding-top:0;background:white;">
+  <div class="section-inner">
+    <div class="cta-band">
+      <div>
+        <h3>Ready to Travel Abroad?</h3>
+        <p>Speak to our team today about your visa, study, work or travel plans.</p>
+        <p style="margin-top:8px;"><i class="fas fa-map-marker-alt"></i> Ho, Central Market Police Station, Building.</p>
+      </div>
+      <div class="cta-contacts">
+        <a href="https://wa.me/233248313606" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> 0248 313 606</a>
+        <a href="tel:+233248313606"><i class="fas fa-phone"></i> 0248 313 606</a>
+        <a href="mailto:info@skybridgesolutionsgh.com"><i class="fas fa-envelope"></i> info@skybridgesolutionsgh.com</a>
+        <a href="https://www.skybridgetravelsgh.com"><i class="fas fa-globe"></i> www.skybridgetravelsgh.com</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED DESTINATIONS -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-head">
+      <div>
+        <h2>Featured Destinations</h2>
+        <p>Handpicked places that inspire wanderlust and career moves.</p>
+      </div>
+      <a href="destinations.html" class="btn btn-outline btn-sm">View all <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="grid grid-4" id="destinationsGrid"></div>
+  </div>
+</section>
+
+<!-- POPULAR TOURS -->
+<section class="section" style="background:white;">
+  <div class="section-inner">
+    <div class="section-head">
+      <div>
+        <h2>Popular Tour Packages</h2>
+        <p>All-inclusive experiences designed for curious travellers.</p>
+      </div>
+      <a href="tours.html" class="btn btn-outline btn-sm">Browse all <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="grid grid-3" id="toursGrid"></div>
+  </div>
+</section>
+
+<!-- FEATURED JOBS -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-head">
+      <div>
+        <h2>Featured International Jobs</h2>
+        <p>Verified opportunities from trusted employers worldwide.</p>
+      </div>
+      <a href="jobs.html" class="btn btn-outline btn-sm">View all jobs <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="grid grid-3" id="jobsGrid"></div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="section" style="background:white;">
+  <div class="section-inner">
+    <div class="section-head"><h2>Why Choose SkyBridge Travels</h2></div>
+    <div class="grid grid-3">
+      <div class="card" style="padding:32px;">
+        <i class="fas fa-shield-alt" style="font-size:2.2rem;color:var(--accent);margin-bottom:18px;"></i>
+        <h3>Verified Opportunities</h3>
+        <p style="color:var(--muted);font-size:0.92rem;">Every job listing is vetted for legitimacy and compliance.</p>
+      </div>
+      <div class="card" style="padding:32px;">
+        <i class="fas fa-globe" style="font-size:2.2rem;color:var(--accent);margin-bottom:18px;"></i>
+        <h3>Global Network</h3>
+        <p style="color:var(--muted);font-size:0.92rem;">Trusted partners across 40+ countries and diverse industries.</p>
+      </div>
+      <div class="card" style="padding:32px;">
+        <i class="fas fa-headset" style="font-size:2.2rem;color:var(--accent);margin-bottom:18px;"></i>
+        <h3>End-to-End Support</h3>
+        <p style="color:var(--muted);font-size:0.92rem;">From travel planning to job placement — we guide you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-head"><h2>What Our Clients Say</h2></div>
+    <div class="grid grid-3">
+      <div class="testimonial"><i class="fas fa-quote-left" style="color:var(--accent);font-size:1.6rem;"></i><p style="margin-top:12px;">SkyBridge Travels helped me land a nursing job in Canada while planning my dream trip to Banff. Seamless!</p><div class="author">— Amara Okafor</div></div>
+      <div class="testimonial"><i class="fas fa-quote-left" style="color:var(--accent);font-size:1.6rem;"></i><p style="margin-top:12px;">The Dubai package was flawless. And I even got interview coaching for a role there!</p><div class="author">— Rajesh Mehta</div></div>
+      <div class="testimonial"><i class="fas fa-quote-left" style="color:var(--accent);font-size:1.6rem;"></i><p style="margin-top:12px;">Found my engineering job in Berlin through SkyBridge Travels. Professional and transparent.</p><div class="author">— Elena Petrova</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="section" style="padding-top:0;">
+  <div class="section-inner">
+    <div class="newsletter">
+      <div>
+        <h3>Stay inspired & informed</h3>
+        <p style="opacity:0.9;">Get travel deals and job alerts straight to your inbox.</p>
+      </div>
+      <form class="newsletter-form" onsubmit="event.preventDefault(); this.reset(); alert('Subscribed! Check your inbox.');">
+        <input type="email" placeholder="Your email address" required>
+        <button type="submit" class="btn btn-white">Subscribe <i class="fas fa-paper-plane"></i></button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo"><img src="logo.png" alt="SkyBridge Travels"></div>
+        <p style="font-size:0.88rem;">Combining travel dreams with global career opportunities.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <a href="services.html">Services</a>
+        <a href="tours.html">Tours & Packages</a>
+        <a href="destinations.html">Destinations</a>
+        <a href="jobs.html">Jobs</a>
+        <a href="about.html">About Us</a>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <a href="contact.html">Contact</a>
+        <a href="contact.html#faq">FAQ</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms & Conditions</a>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <a href="https://wa.me/233248313606" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> 0248 313 606</a>
+        <a href="tel:+233248313606"><i class="fas fa-phone"></i> 0248 313 606</a>
+        <a href="mailto:info@skybridgesolutionsgh.com"><i class="fas fa-envelope"></i> info@skybridgesolutionsgh.com</a>
+        <a href="https://www.google.com/maps/search/?api=1&query=Central+Market+Police+Station+Ho+Ghana" target="_blank" rel="noopener"><i class="fas fa-map-marker-alt"></i> Ho, Central Market Police Station, Building</a>
+        <a href="login.html" style="margin-top:8px;"><i class="fas fa-lock"></i> Admin Login</a>
+      </div>
+    </div>
+    <div class="disclaimer">
+      <i class="fas fa-exclamation-triangle"></i> Disclaimer: SkyBridge Travels acts as a platform connecting travellers and job seekers with opportunities. We do not guarantee employment or visa approval. All job listings should be independently verified.
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 SkyBridge Travels. All rights reserved.</span>
+      <span>Secure submission with CAPTCHA & encryption.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-database-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="main.js"></script>
+<script src="services.js"></script>
+<script>
+  // Services: hero chips + homepage grid (data lives in services.js)
+  document.getElementById('heroChips').innerHTML = SERVICES.map(s =>
+    `<a class="service-chip" href="services.html#${s.id}"><i class="fas ${s.icon}"></i>${s.title}</a>`).join('');
+  document.getElementById('servicesGrid').innerHTML = SERVICES.map(s => `
+    <div class="card service-card">
+      <div class="service-icon"><i class="fas ${s.icon}"></i></div>
+      <h3>${s.title}</h3>
+      <p>${s.short}</p>
+      <a class="more" href="services.html#${s.id}">Learn more <i class="fas fa-arrow-right"></i></a>
+    </div>`).join('');
+
+  // Rotating hero background: tour sites / destinations / jobs
+  WW.initHeroSlider('#homeHero');
+
+  // Homepage data rendering — pulled live from the shared WW store (synced
+  // with Firebase — see WWSync in main.js), which the admin dashboard can
+  // edit (Tours / Destinations / Jobs tabs) from any device.
+  function renderHomeData() {
+  const destinations = WW.getDestinations().slice(0, 4);
+  const tours = WW.getTours().slice(0, 3);
+
+  // Render destinations
+  document.getElementById('destinationsGrid').innerHTML = destinations.map(d => `
+    <div class="card">
+      <div class="card-img" style="background-image:url('${encodeURI(d.img)}')"><span class="badge">${wwEsc(d.region)}</span></div>
+      <div class="card-body">
+        <h3>${wwEsc(d.name)}, ${wwEsc(d.country)}</h3>
+        <p style="font-size:0.88rem;color:var(--muted);margin-bottom:14px;">${wwEsc(d.desc)}</p>
+        <a href="destinations.html" class="btn btn-primary btn-sm" style="align-self:flex-start;">Explore <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  `).join('');
+
+  // Render tours
+  document.getElementById('toursGrid').innerHTML = tours.map(t => `
+    <div class="card">
+      <div class="card-img" style="background-image:url('${encodeURI(t.img)}')"><span class="badge">${wwEsc(t.category)}</span></div>
+      <div class="card-body">
+        <h3>${wwEsc(t.name)}</h3>
+        <div class="card-meta"><span><i class="fas fa-map-marker-alt"></i>${wwEsc(t.dest)}</span><span><i class="fas fa-clock"></i>${wwEsc(t.days)} days</span></div>
+        <p style="font-size:0.88rem;color:var(--muted);">${wwEsc(t.desc)}</p>
+        <div class="card-price">$${Number(t.price).toLocaleString()} <span>per person</span></div>
+        <div class="card-actions">
+          <a href="tour-detail.html?id=${encodeURIComponent(t.id)}" class="btn btn-outline btn-sm">Details</a>
+          <a href="tour-detail.html?id=${encodeURIComponent(t.id)}" class="btn btn-primary btn-sm">Book Now</a>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  // Render featured jobs (from shared store)
+  const jobs = WW.getJobs().slice(0, 3);
+  document.getElementById('jobsGrid').innerHTML = jobs.map(j => `
+    <div class="card job-card">
+      <div class="card-body">
+        <div class="job-title">${wwEsc(j.title)}</div>
+        <div class="job-company"><i class="fas fa-building"></i> ${wwEsc(j.company)}</div>
+        <div class="card-meta"><span><i class="fas fa-map-marker-alt"></i>${wwEsc(j.city)}, ${wwEsc(j.country)}</span><span><i class="fas fa-clock"></i>${wwEsc(j.type)}</span></div>
+        <div class="job-tags"><span class="tag tag-accent">${wwEsc(j.category)}</span><span class="tag">${wwEsc(j.industry)}</span></div>
+        <div class="card-price" style="font-size:1rem;">${wwEsc(j.salary)}</div>
+        <div class="card-actions">
+          <a href="job-detail.html?id=${encodeURIComponent(j.id)}" class="btn btn-outline btn-sm">View Job</a>
+          <a href="job-detail.html?id=${encodeURIComponent(j.id)}" class="btn btn-primary btn-sm">Apply Now</a>
+        </div>
+        <div style="font-size:0.74rem;color:var(--muted);margin-top:10px;">Posted ${wwEsc(j.posted)}</div>
+      </div>
+    </div>
+  `).join('');
+  } // end renderHomeData
+
+  renderHomeData();
+  document.addEventListener('ww:destinations-updated', renderHomeData);
+  document.addEventListener('ww:tours-updated', renderHomeData);
+  document.addEventListener('ww:jobs-updated', renderHomeData);
+
+  function heroSearchAction() {
+    const q = document.getElementById('heroSearch').value.toLowerCase();
+    const cat = document.getElementById('heroCategory').value;
+    if (cat === 'job' || q.includes('job') || q.includes('engineer') || q.includes('nurse')) {
+      window.location.href = `jobs.html?q=${encodeURIComponent(q)}`;
+    } else if (cat === 'tour' || q.includes('tour') || q.includes('package')) {
+      window.location.href = `tours.html?q=${encodeURIComponent(q)}`;
+    } else {
+      window.location.href = `destinations.html?q=${encodeURIComponent(q)}`;
+    }
+  }
+</script>
+</body>
+</html>

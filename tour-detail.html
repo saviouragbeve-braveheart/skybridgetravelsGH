@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://www.gstatic.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://images.unsplash.com; connect-src 'self' https://*.firebaseio.com wss://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://www.googleapis.com; frame-src https://skybridge-travels-database.firebaseapp.com; frame-ancestors 'self'; base-uri 'self'; object-src 'none'; form-action 'self';">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="index, follow">
+<title>Tour Details — SkyBridge Travels</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo"><img src="logo.png" alt="SkyBridge Travels" class="logo-img"></a>
+    <button class="menu-btn" id="menuBtn"><i class="fas fa-bars"></i></button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a><a href="tours.html" class="active">Tours</a><a href="destinations.html">Destinations</a>
+      <a href="jobs.html">Jobs</a><a href="about.html">About</a><a href="contact.html">Contact</a>
+      <a href="jobs.html" class="nav-cta">Apply for Jobs</a>
+    </div>
+  </div>
+</nav>
+
+<section class="section">
+  <div class="section-inner">
+    <a href="tours.html" style="color:var(--primary-light);text-decoration:none;font-size:0.9rem;"><i class="fas fa-arrow-left"></i> Back to all tours</a>
+    <div id="tourDetailWrap" style="margin-top:20px;"></div>
+  </div>
+</section>
+
+<!-- Booking modal -->
+<div class="modal" id="bookingModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeBooking()">&times;</button>
+    <div id="bookingFormWrap">
+      <h2>Book: <span id="bookingTourName"></span></h2>
+      <p style="color:var(--muted);margin-bottom:22px;">Reserve your spot. We'll confirm availability by email within 24 hours.</p>
+      <form id="bookingForm">
+        <div class="form-group"><label>Full name *</label><input type="text" id="bkName" required></div>
+        <div class="form-group"><label>Email *</label><input type="email" id="bkEmail" required></div>
+        <div class="form-group"><label>Phone *</label><input type="tel" id="bkPhone" required></div>
+        <div class="form-group"><label>Preferred travel date *</label><input type="date" id="bkDate" required></div>
+        <div class="form-group"><label>Number of travellers *</label><input type="number" id="bkTravellers" min="1" value="2" required></div>
+        <div class="form-group"><label>Special requests</label><textarea id="bkNotes" maxlength="500" placeholder="Dietary needs, accessibility, etc."></textarea></div>
+        <!-- Honeypot: hidden from real visitors via CSS, bots often fill every field -->
+        <div style="position:absolute;left:-9999px;" aria-hidden="true">
+          <label for="bkWebsite">Leave this field empty</label>
+          <input type="text" id="bkWebsite" class="hp-field" name="website" tabindex="-1" autocomplete="off">
+        </div>
+        <div class="consent-row">
+          <input type="checkbox" id="bookConsent" required>
+          <label for="bookConsent">I agree to the <a href="terms.html" style="color:var(--primary-light);">Terms & Conditions</a> and <a href="privacy.html" style="color:var(--primary-light);">Privacy Policy</a>.</label>
+        </div>
+        <div class="form-group captcha-box" id="bookCaptcha">
+          <label><i class="fas fa-shield-alt" style="color:var(--accent);"></i> Quick check — <span class="captcha-q"></span> *</label>
+          <input type="text" class="captcha-a" required inputmode="numeric" autocomplete="off" placeholder="Your answer">
+        </div>
+        <div id="bookCaptchaError" class="login-error" style="display:none;"><i class="fas fa-exclamation-circle"></i> That answer isn't quite right — please try again.</div>
+        <button type="submit" class="btn btn-primary btn-block">Confirm Booking Request</button>
+      </form>
+    </div>
+    <div id="bookingSuccess" style="display:none;">
+      <div class="alert-success"><i class="fas fa-check-circle"></i> Booking request received!</div>
+      <p style="margin-top:18px;">Your booking reference:</p>
+      <h3 style="color:var(--primary);font-size:1.4rem;margin:8px 0 18px;">TRV-<span id="tourRefNum"></span></h3>
+      <p style="color:var(--muted);font-size:0.9rem;">Our travel team will confirm availability and payment details within 24 hours. A confirmation has also been drafted automatically - check your email / WhatsApp shortly.</p>
+      <button class="btn btn-primary btn-block" style="margin-top:18px;" onclick="closeBooking()">Done</button>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo"><img src="logo.png" alt="SkyBridge Travels"></div>
+        <p style="font-size:0.88rem;">Combining travel dreams with global career opportunities.</p>
+      </div>
+      <div><h4>Explore</h4><a href="services.html">Services</a><a href="tours.html">Tours</a><a href="destinations.html">Destinations</a><a href="jobs.html">Jobs</a><a href="about.html">About</a></div>
+      <div><h4>Support</h4><a href="contact.html">Contact</a><a href="contact.html#faq">FAQ</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></div>
+      <div><h4>Contact</h4><a href="https://wa.me/233248313606" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> 0248 313 606</a><a href="tel:+233248313606"><i class="fas fa-phone"></i> 0248 313 606</a><a href="mailto:info@skybridgesolutionsgh.com"><i class="fas fa-envelope"></i> info@skybridgesolutionsgh.com</a><a href="https://www.google.com/maps/search/?api=1&query=Central+Market+Police+Station+Ho+Ghana" target="_blank" rel="noopener"><i class="fas fa-map-marker-alt"></i> Ho, Central Market Police Station, Building</a><a href="login.html"><i class="fas fa-lock"></i> Admin</a></div>
+    </div>
+    <div class="disclaimer"><i class="fas fa-exclamation-triangle"></i> SkyBridge Travels does not guarantee employment or visa approval. Verify all listings independently.</div>
+    <div class="footer-bottom"><span>© 2026 SkyBridge Travels.</span><span>Secure & encrypted.</span></div>
+  </div>
+</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-database-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="main.js"></script>
+<script>
+let currentTour = null;
+
+function loadTour() {
+    const id = parseInt(new URLSearchParams(window.location.search).get('id'));
+    const tours = WW.getTours();
+    currentTour = tours.find(t => t.id === id);
+
+    if (!currentTour) {
+        document.getElementById('tourDetailWrap').innerHTML = '<p>Tour not found. <a href="tours.html">Browse all tours</a></p>';
+        return;
+    }
+
+    const t = currentTour;
+    document.title = t.name + ' - SkyBridge Travels';
+    document.getElementById('tourDetailWrap').innerHTML = `
+        <div class="detail-hero" style="background-image:url('${encodeURI(t.img)}');">
+            <div class="detail-hero-text">
+                <span class="badge">${wwEsc(t.category)}</span>
+                <h1>${wwEsc(t.name)}</h1>
+            </div>
+        </div>
+        <div class="detail-grid">
+            <div>
+                <div class="card-meta" style="margin-bottom:20px;">
+                    <span><i class="fas fa-map-marker-alt"></i>${wwEsc(t.dest)}</span>
+                    <span><i class="fas fa-clock"></i>${wwEsc(t.days)} days</span>
+                    <span><i class="fas fa-circle" style="color:${t.availability === 'Available' ? '#28a745' : (t.availability === 'Sold out' ? '#dc3545' : '#f0ad4e')};font-size:0.55rem;"></i>${wwEsc(t.availability)}</span>
+                </div>
+                <h3 style="color:var(--primary);margin-bottom:10px;">About this tour</h3>
+                <p style="color:var(--muted);line-height:1.8;margin-bottom:24px;">${wwEsc(t.desc)}</p>
+                <h3 style="color:var(--primary);margin-bottom:10px;">What's included</h3>
+                <ul style="color:var(--muted);line-height:2;padding-left:20px;margin-bottom:24px;">
+                    ${(t.activities || []).map(a => `<li>${wwEsc(a)}</li>`).join('')}
+                </ul>
+                <h3 style="color:var(--primary);margin-bottom:10px;">Good to know</h3>
+                <ul style="color:var(--muted);line-height:2;padding-left:20px;">
+                    <li>Flights not included unless stated otherwise</li>
+                    <li>Full refund for cancellations 30+ days before departure</li>
+                    <li>Travel insurance strongly recommended</li>
+                </ul>
+            </div>
+            <div class="card booking-card">
+                <div class="card-body">
+                    <div class="card-price" style="font-size:1.6rem;">$${t.price.toLocaleString()} <span>per person</span></div>
+                    ${t.availability === 'Sold out'
+                        ? `<button class="btn btn-block" disabled style="background:#dde5ee;color:var(--muted);cursor:not-allowed;">Sold out</button>`
+                        : `<button class="btn btn-primary btn-block" onclick="openBooking()"><i class="fas fa-calendar-check"></i> Book Now</button>`}
+                    <a class="btn btn-outline btn-block" style="margin-top:10px;" href="${WW.whatsappUrl('Hi, I would like to ask about the ' + t.name + ' tour.')}" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Ask on WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+const bookCaptchaBox = document.getElementById('bookCaptcha');
+
+function openBooking() {
+    if (!currentTour) return;
+    document.getElementById('bookingTourName').textContent = currentTour.name;
+    document.getElementById('bookingFormWrap').style.display = 'block';
+    document.getElementById('bookingSuccess').style.display = 'none';
+    document.getElementById('bookingForm').reset();
+    document.getElementById('bookCaptchaError').style.display = 'none';
+    WW.newCaptcha(bookCaptchaBox);
+    document.getElementById('bookingModal').classList.add('open');
+}
+function closeBooking() { document.getElementById('bookingModal').classList.remove('open'); }
+
+document.getElementById('bookingForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const form = document.getElementById('bookingForm');
+
+    // Silently drop likely-bot submissions (honeypot filled)
+    if (WW.isHoneypotFilled(form)) { form.reset(); return; }
+
+    if (!WW.checkCaptcha(bookCaptchaBox)) {
+        document.getElementById('bookCaptchaError').style.display = 'block';
+        WW.newCaptcha(bookCaptchaBox);
+        return;
+    }
+    document.getElementById('bookCaptchaError').style.display = 'none';
+
+    const booking = WW.addBooking({
+        tourId: currentTour.id,
+        tourName: currentTour.name,
+        name: document.getElementById('bkName').value.trim(),
+        email: document.getElementById('bkEmail').value.trim(),
+        phone: document.getElementById('bkPhone').value.trim(),
+        date: document.getElementById('bkDate').value,
+        travellers: document.getElementById('bkTravellers').value,
+        notes: document.getElementById('bkNotes').value.trim()
+    });
+    document.getElementById('tourRefNum').textContent = booking.id.replace('TRV-', '');
+    document.getElementById('bookingFormWrap').style.display = 'none';
+    document.getElementById('bookingSuccess').style.display = 'block';
+});
+
+document.addEventListener('DOMContentLoaded', loadTour);
+</script>
+</body>
+</html>

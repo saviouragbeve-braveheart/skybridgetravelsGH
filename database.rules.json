@@ -1,0 +1,33 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "jobs":         { ".read": true, ".write": "auth != null" },
+    "tours":        { ".read": true, ".write": "auth != null" },
+    "destinations": { ".read": true, ".write": "auth != null" },
+    "settings":     { ".read": true, ".write": "auth != null" },
+
+    "applications": {
+      ".read": "auth != null",
+      "$id": {
+        ".write": "auth != null || (!data.exists() && newData.exists())",
+        ".validate": "newData.hasChildren(['id', 'status']) && (data.exists() || newData.child('id').val() === $id) && (auth != null || newData.child('status').val() === 'Pending')"
+      }
+    },
+    "bookings": {
+      ".read": "auth != null",
+      "$id": {
+        ".write": "auth != null || (!data.exists() && newData.exists())",
+        ".validate": "newData.hasChildren(['id', 'status']) && (data.exists() || newData.child('id').val() === $id) && (auth != null || newData.child('status').val() === 'Pending')"
+      }
+    },
+    "messages": {
+      ".read": "auth != null",
+      "$id": {
+        ".write": "auth != null || (!data.exists() && newData.exists())",
+        ".validate": "newData.hasChildren(['id']) && (data.exists() || newData.child('id').val() === $id) && (auth != null || newData.child('sent').val() === false)"
+      }
+    }
+  }
+}

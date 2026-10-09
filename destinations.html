@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://www.gstatic.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://images.unsplash.com; connect-src 'self' https://*.firebaseio.com wss://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://www.googleapis.com; frame-src https://skybridge-travels-database.firebaseapp.com; frame-ancestors 'self'; base-uri 'self'; object-src 'none'; form-action 'self';">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="index, follow">
+<title>Popular Destinations — SkyBridge Travels</title>
+<meta name="description" content="Explore the world's most inspiring destinations with SkyBridge Travels.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo"><img src="logo.png" alt="SkyBridge Travels" class="logo-img"></a>
+    <button class="menu-btn" id="menuBtn"><i class="fas fa-bars"></i></button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a><a href="tours.html">Tours</a>
+      <a href="destinations.html" class="active">Destinations</a>
+      <a href="jobs.html">Jobs</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="jobs.html" class="nav-cta">Apply for Jobs</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero hero-slider" id="pageHero" style="padding:90px 24px 70px;">
+  <div class="hero-inner">
+    <h1 style="font-size:clamp(1.8rem,5vw,2.8rem);">Popular Destinations</h1>
+    <p>Discover the world's most inspiring places — and the opportunities waiting there.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-inner">
+
+    <!-- Filter bar -->
+    <div class="filter-bar">
+      <input type="text" id="destSearch" placeholder="Search destinations...">
+      <select id="destRegion">
+        <option value="">Region: All</option>
+        <option value="Europe">Europe</option>
+        <option value="Asia">Asia</option>
+        <option value="Middle East">Middle East</option>
+        <option value="Africa">Africa</option>
+        <option value="Americas">Americas</option>
+        <option value="Oceania">Oceania</option>
+      </select>
+      <button onclick="applyDestFilters()"><i class="fas fa-filter"></i> Filter</button>
+    </div>
+
+    <div id="destCount" style="margin-bottom:16px;color:var(--muted);font-size:0.9rem;"></div>
+    <div class="grid grid-3" id="destGrid"></div>
+    <div id="destNoResults" style="display:none;text-align:center;padding:60px 20px;color:var(--muted);">
+      <i class="fas fa-search" style="font-size:2.5rem;margin-bottom:16px;opacity:0.4;"></i>
+      <p>No destinations match your search.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo"><img src="logo.png" alt="SkyBridge Travels"></div>
+        <p style="font-size:0.88rem;">Combining travel dreams with global career opportunities.</p>
+      </div>
+      <div><h4>Explore</h4><a href="services.html">Services</a><a href="tours.html">Tours</a><a href="destinations.html">Destinations</a><a href="jobs.html">Jobs</a><a href="about.html">About</a></div>
+      <div><h4>Support</h4><a href="contact.html">Contact</a><a href="contact.html#faq">FAQ</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></div>
+      <div><h4>Contact</h4><a href="https://wa.me/233248313606" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> 0248 313 606</a><a href="tel:+233248313606"><i class="fas fa-phone"></i> 0248 313 606</a><a href="mailto:info@skybridgesolutionsgh.com"><i class="fas fa-envelope"></i> info@skybridgesolutionsgh.com</a><a href="https://www.google.com/maps/search/?api=1&query=Central+Market+Police+Station+Ho+Ghana" target="_blank" rel="noopener"><i class="fas fa-map-marker-alt"></i> Ho, Central Market Police Station, Building</a><a href="login.html"><i class="fas fa-lock"></i> Admin</a></div>
+    </div>
+    <div class="disclaimer"><i class="fas fa-exclamation-triangle"></i> SkyBridge Travels does not guarantee employment or visa approval. Verify all listings independently.</div>
+    <div class="footer-bottom"><span>© 2026 SkyBridge Travels.</span><span>Secure & encrypted.</span></div>
+  </div>
+</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-database-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="main.js"></script>
+<script>WW.initHeroSlider('#pageHero');</script>
+<script>
+// Destinations now come from the shared WW store (localStorage), which the
+// admin dashboard's Destinations tab can add to, edit, or remove.
+// "tag" is kept as an alias of "region" for display; "packages" is
+// calculated live from the Tours data rather than stored separately.
+let DESTINATIONS = WW.getDestinations().map(d => ({ ...d, tag: d.region, packages: WW.packageCountFor(d.name) }));
+let filteredDests = [...DESTINATIONS];
+
+function renderDests() {
+  const grid = document.getElementById('destGrid');
+  const noResults = document.getElementById('destNoResults');
+  const countEl = document.getElementById('destCount');
+
+  if (filteredDests.length === 0) {
+    grid.innerHTML = '';
+    noResults.style.display = 'block';
+    countEl.textContent = '0 destinations found';
+    return;
+  }
+  noResults.style.display = 'none';
+  countEl.textContent = `${filteredDests.length} destination${filteredDests.length > 1 ? 's' : ''} found`;
+
+  grid.innerHTML = filteredDests.map(d => `
+    <div class="card">
+      <div class="card-img" style="background-image:url('${encodeURI(d.img)}');height:220px;">
+        <span class="badge">${wwEsc(d.tag)}</span>
+      </div>
+      <div class="card-body">
+        <h3>${wwEsc(d.name)}, ${wwEsc(d.country)}</h3>
+        <p style="font-size:0.88rem;color:var(--muted);margin-bottom:14px;">${wwEsc(d.desc)}</p>
+        <div style="font-size:0.82rem;color:var(--muted);margin-bottom:8px;">
+          <strong style="color:var(--primary);">Top attractions:</strong>
+        </div>
+        <div class="job-tags" style="margin-bottom:14px;">
+          ${d.attractions.map(a => `<span class="tag">${wwEsc(a)}</span>`).join('')}
+        </div>
+        <div style="font-size:0.82rem;color:var(--muted);margin-bottom:16px;">
+          <i class="fas fa-suitcase" style="color:var(--accent);"></i> ${wwEsc(d.packages)} tour packages available
+        </div>
+        <a href="tours.html?q=${encodeURIComponent(d.name)}" class="btn btn-primary btn-sm" style="align-self:flex-start;">Explore Destination <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  `).join('');
+}
+
+function applyDestFilters() {
+  const q = document.getElementById('destSearch').value.toLowerCase().trim();
+  const region = document.getElementById('destRegion').value;
+
+  filteredDests = DESTINATIONS.filter(d => {
+    if (region && d.region !== region) return false;
+    if (q && !(d.name.toLowerCase().includes(q) || d.country.toLowerCase().includes(q) || d.desc.toLowerCase().includes(q))) return false;
+    return true;
+  });
+  renderDests();
+}
+
+document.getElementById('destSearch').addEventListener('input', applyDestFilters);
+document.getElementById('destRegion').addEventListener('change', applyDestFilters);
+
+// Pre-fill from URL
+const params = new URLSearchParams(window.location.search);
+const q = params.get('q');
+if (q) document.getElementById('destSearch').value = q;
+
+applyDestFilters();
+
+// Live updates: reflect admin changes (from any device) without a manual refresh.
+document.addEventListener('ww:destinations-updated', () => {
+  DESTINATIONS = WW.getDestinations().map(d => ({ ...d, tag: d.region, packages: WW.packageCountFor(d.name) }));
+  applyDestFilters();
+});
+document.addEventListener('ww:tours-updated', () => {
+  // Tour counts per destination can change when tours are edited.
+  DESTINATIONS = WW.getDestinations().map(d => ({ ...d, tag: d.region, packages: WW.packageCountFor(d.name) }));
+  applyDestFilters();
+});
+</script>
+</body>
+</html>

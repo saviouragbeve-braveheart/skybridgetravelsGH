@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://www.gstatic.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://images.unsplash.com; connect-src 'self' https://*.firebaseio.com wss://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://www.googleapis.com; frame-src https://skybridge-travels-database.firebaseapp.com; frame-ancestors 'self'; base-uri 'self'; object-src 'none'; form-action 'self';">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="index, follow">
+<title>About Us — SkyBridge Travels</title>
+<meta name="description" content="Learn about SkyBridge Travels' mission to connect travellers with global career opportunities.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo"><img src="logo.png" alt="SkyBridge Travels" class="logo-img"></a>
+    <button class="menu-btn" id="menuBtn"><i class="fas fa-bars"></i></button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a><a href="tours.html">Tours</a>
+      <a href="destinations.html">Destinations</a>
+      <a href="jobs.html">Jobs</a>
+      <a href="about.html" class="active">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="jobs.html" class="nav-cta">Apply for Jobs</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Page header -->
+<section class="hero hero-slider" id="pageHero" style="padding:90px 24px 70px;">
+  <div class="hero-inner">
+    <h1 style="font-size:clamp(1.8rem,5vw,2.8rem);">About SkyBridge Travels</h1>
+    <p>We believe your career and your curiosity should never be a choice — they should travel together.</p>
+  </div>
+</section>
+
+<!-- Mission -->
+<section class="section">
+  <div class="section-inner">
+    <div class="grid grid-2" style="align-items:center;gap:50px;">
+      <div>
+        <h2 style="color:var(--primary);font-size:clamp(1.6rem,4vw,2.2rem);margin-bottom:20px;">Our Mission</h2>
+        <p style="color:var(--muted);margin-bottom:16px;line-height:1.8;">
+          SkyBridge Travels was founded on a simple idea: the world is both a destination and a workplace. We connect curious travellers with unforgettable journeys, and skilled professionals with verified international careers.
+        </p>
+        <p style="color:var(--muted);margin-bottom:16px;line-height:1.8;">
+          Since our launch, we've helped thousands of people explore new countries, experience new cultures, and build meaningful careers abroad — all through one trusted platform.
+        </p>
+        <p style="color:var(--muted);line-height:1.8;">
+          We work with vetted employers, licensed tour operators, and local partners in over 40 countries to ensure every opportunity we list is legitimate, transparent, and worth your time.
+        </p>
+      </div>
+      <div style="border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-md);">
+        <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&auto=format&fit=crop" alt="Travellers exploring the world" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Values -->
+<section class="section" style="background:white;">
+  <div class="section-inner">
+    <div class="section-head"><h2>What We Stand For</h2></div>
+    <div class="grid grid-3">
+      <div class="card" style="padding:32px;">
+        <i class="fas fa-shield-alt" style="font-size:2rem;color:var(--accent);margin-bottom:18px;"></i>
+        <h3>Trust & Transparency</h3>
+        <p style="color:var(--muted);font-size:0.92rem;">Every listing is verified. Every fee is disclosed upfront. No hidden surprises.</p>
+      </div>
+      <div class="card" style="padding:32px;">
+        <i class="fas fa-users" style="font-size:2rem;color:var(--accent);margin-bottom:18px;"></i>
+        <h3>People First</h3>
+        <p style="color:var(--muted);font-size:0.92rem;">We support you from first search to first day on the job, and beyond.</p>
+      </div>
+      <div class="card" style="padding:32px;">
+        <i class="fas fa-globe" style="font-size:2rem;color:var(--accent);margin-bottom:18px;"></i>
+        <h3>Global Mindset</h3>
+        <p style="color:var(--muted);font-size:0.92rem;">We celebrate cultural exchange and believe careers should have no borders.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- By the numbers -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-head"><h2>SkyBridge Travels by the Numbers</h2></div>
+    <div class="grid grid-4">
+      <div class="stat-card" style="text-align:center;">
+        <div class="num" style="font-size:2.4rem;">40+</div>
+        <div class="label">Countries served</div>
+      </div>
+      <div class="stat-card" style="text-align:center;">
+        <div class="num" style="font-size:2.4rem;">12k+</div>
+        <div class="label">Successful placements</div>
+      </div>
+      <div class="stat-card" style="text-align:center;">
+        <div class="num" style="font-size:2.4rem;">500+</div>
+        <div class="label">Verified employers</div>
+      </div>
+      <div class="stat-card" style="text-align:center;">
+        <div class="num" style="font-size:2.4rem;">98%</div>
+        <div class="label">Client satisfaction</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Team -->
+<section class="section" style="background:white;">
+  <div class="section-inner">
+    <div class="section-head"><h2>Meet the Team</h2></div>
+    <div class="grid grid-3">
+      <div class="card" style="text-align:center;padding:32px;">
+        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&h=200&auto=format&fit=crop&crop=faces" alt="CEO" style="width:100px;height:100px;border-radius:50%;object-fit:cover;margin:0 auto 16px;">
+        <h3 style="margin-bottom:4px;">Daniel Osei</h3>
+        <p style="color:var(--accent);font-size:0.85rem;font-weight:600;margin-bottom:10px;">Founder & CEO</p>
+        <p style="color:var(--muted);font-size:0.88rem;">Former expat who spent 12 years building careers across three continents.</p>
+      </div>
+      <div class="card" style="text-align:center;padding:32px;">
+        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&auto=format&fit=crop&crop=faces" alt="Head of Travel" style="width:100px;height:100px;border-radius:50%;object-fit:cover;margin:0 auto 16px;">
+        <h3 style="margin-bottom:4px;">Amara Nwosu</h3>
+        <p style="color:var(--accent);font-size:0.85rem;font-weight:600;margin-bottom:10px;">Head of Travel</p>
+        <p style="color:var(--muted);font-size:0.88rem;">Curates every tour package with a focus on authentic local experiences.</p>
+      </div>
+      <div class="card" style="text-align:center;padding:32px;">
+        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200&h=200&auto=format&fit=crop&crop=faces" alt="Head of Recruitment" style="width:100px;height:100px;border-radius:50%;object-fit:cover;margin:0 auto 16px;">
+        <h3 style="margin-bottom:4px;">Liam Bergström</h3>
+        <p style="color:var(--accent);font-size:0.85rem;font-weight:600;margin-bottom:10px;">Head of Recruitment</p>
+        <p style="color:var(--muted);font-size:0.88rem;">Vets every employer and ensures every listing meets our strict standards.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section" style="padding-top:0;">
+  <div class="section-inner">
+    <div class="newsletter" style="text-align:center;justify-content:center;">
+      <div>
+        <h3>Ready to start your journey?</h3>
+        <p style="opacity:0.9;margin-bottom:20px;">Browse tours, destinations, and international jobs — all in one place.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+          <a href="jobs.html" class="btn btn-white"><i class="fas fa-briefcase"></i> Find Jobs</a>
+          <a href="tours.html" class="btn btn-accent"><i class="fas fa-suitcase"></i> Browse Tours</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo"><img src="logo.png" alt="SkyBridge Travels"></div>
+        <p style="font-size:0.88rem;">Combining travel dreams with global career opportunities.</p>
+      </div>
+      <div><h4>Explore</h4><a href="services.html">Services</a><a href="tours.html">Tours</a><a href="destinations.html">Destinations</a><a href="jobs.html">Jobs</a><a href="about.html">About</a></div>
+      <div><h4>Support</h4><a href="contact.html">Contact</a><a href="contact.html#faq">FAQ</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></div>
+      <div><h4>Contact</h4><a href="https://wa.me/233248313606" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> 0248 313 606</a><a href="tel:+233248313606"><i class="fas fa-phone"></i> 0248 313 606</a><a href="mailto:info@skybridgesolutionsgh.com"><i class="fas fa-envelope"></i> info@skybridgesolutionsgh.com</a><a href="https://www.google.com/maps/search/?api=1&query=Central+Market+Police+Station+Ho+Ghana" target="_blank" rel="noopener"><i class="fas fa-map-marker-alt"></i> Ho, Central Market Police Station, Building</a><a href="login.html"><i class="fas fa-lock"></i> Admin</a></div>
+    </div>
+    <div class="disclaimer"><i class="fas fa-exclamation-triangle"></i> SkyBridge Travels does not guarantee employment or visa approval. Verify all listings independently.</div>
+    <div class="footer-bottom"><span>© 2026 SkyBridge Travels.</span><span>Secure & encrypted.</span></div>
+  </div>
+</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-database-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="main.js"></script>
+<script>WW.initHeroSlider('#pageHero');</script>
+</body>
+</html>

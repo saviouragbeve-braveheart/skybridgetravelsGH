@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://www.gstatic.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://images.unsplash.com; connect-src 'self' https://*.firebaseio.com wss://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://www.googleapis.com; frame-src https://skybridge-travels-database.firebaseapp.com; frame-ancestors 'self'; base-uri 'self'; object-src 'none'; form-action 'self';">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="index, follow">
+<title>Admin Login - SkyBridge Travels</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="styles.css">
+<style>
+  body { display:flex; align-items:center; justify-content:center; min-height:100vh; background:linear-gradient(140deg,#061a5c,#0b2f9f,#1f57d6); }
+  .login-box { background:white; border-radius:var(--radius); padding:44px; max-width:420px; width:100%; box-shadow:var(--shadow-lg); }
+  .login-box h1 { color:var(--primary); margin-bottom:6px; font-size:1.6rem; }
+  .login-box p { color:var(--muted); margin-bottom:28px; font-size:0.9rem; }
+  .login-error { background:#f8d7da; color:#721c24; padding:12px 16px; border-radius:var(--radius-sm); font-size:0.88rem; margin-bottom:16px; display:none; }
+</style>
+<link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+  <div class="login-box">
+    <img src="logo.png" alt="SkyBridge Travels" style="height:70px;display:block;margin:0 auto 18px;">
+    <h1><i class="fas fa-lock" style="color:var(--accent);"></i> Admin Login</h1>
+    <p>Authorized personnel only. All activity is logged.</p>
+    <div class="info-banner" id="expiredBanner" style="display:none;"><i class="fas fa-clock"></i> Your session expired after 30 minutes of inactivity. Please sign in again.</div>
+    <div class="lockout-banner" id="lockoutBanner" style="display:none;"><i class="fas fa-lock"></i> Too many failed attempts. Try again in <span id="lockoutSecs"></span>s.</div>
+    <div class="login-error" id="loginError"><i class="fas fa-exclamation-circle"></i> Invalid credentials. Please try again.</div>
+    <form id="loginForm">
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="username" required placeholder="admin" autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="password" required placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn btn-primary btn-block" style="margin-top:10px;" id="loginSubmitBtn">Sign In <i class="fas fa-arrow-right"></i></button>
+    </form>
+    <p style="text-align:center;margin-top:24px;"><a href="index.html" style="color:var(--primary-light);font-size:0.85rem;">← Back to website</a></p>
+  </div>
+
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-database-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="main.js"></script>
+<script>
+  // Real authentication via Firebase (see WWAuth in main.js and
+  // firebase-config.js) — the password is verified by Firebase's own
+  // servers, never stored or checked in this file. The local lockout
+  // counter below is just a fast first line of defense; Firebase
+  // independently rate-limits repeated failed sign-ins server-side too.
+  sessionStorage.removeItem('ww_admin');
+
+  function updateLockoutUI() {
+    const btn = document.getElementById('loginSubmitBtn');
+    if (WWAuth.isLockedOut()) {
+      document.getElementById('lockoutBanner').style.display = 'block';
+      document.getElementById('lockoutSecs').textContent = WWAuth.lockoutRemainingSeconds();
+      btn.disabled = true;
+      setTimeout(updateLockoutUI, 1000);
+    } else {
+      document.getElementById('lockoutBanner').style.display = 'none';
+      btn.disabled = false;
+    }
+  }
+  updateLockoutUI();
+
+  document.getElementById('loginForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    if (WWAuth.isLockedOut()) { updateLockoutUI(); return; }
+    const u = document.getElementById('username').value.trim();
+    const p = document.getElementById('password').value;
+    const btn = document.getElementById('loginSubmitBtn');
+    btn.disabled = true;
+    btn.innerHTML = 'Signing in… <i class="fas fa-spinner fa-spin"></i>';
+    const ok = await WWAuth.verify(u, p);
+    btn.disabled = false;
+    btn.innerHTML = 'Sign In <i class="fas fa-arrow-right"></i>';
+    if (ok) {
+      WWAuth.registerSuccess();
+      sessionStorage.setItem('ww_admin', JSON.stringify({ user: u, ts: Date.now() }));
+      window.location.href = 'dashboard.html';
+    } else {
+      WWAuth.registerFailure();
+      document.getElementById('loginError').innerHTML =
+        '<i class="fas fa-exclamation-circle"></i> ' + (WWAuth.lastError || 'Invalid credentials. Please try again.');
+      document.getElementById('loginError').style.display = 'block';
+      updateLockoutUI();
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard.html
+Disallow: /login.html
+
+Sitemap: https://www.skybridgetravelsgh.com/sitemap.xml

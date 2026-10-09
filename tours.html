@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://www.gstatic.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://images.unsplash.com; connect-src 'self' https://*.firebaseio.com wss://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://www.googleapis.com; frame-src https://skybridge-travels-database.firebaseapp.com; frame-ancestors 'self'; base-uri 'self'; object-src 'none'; form-action 'self';">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="index, follow">
+<title>Tour Packages — SkyBridge Travels</title>
+<meta name="description" content="Browse curated tour packages across the world.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo"><img src="logo.png" alt="SkyBridge Travels" class="logo-img"></a>
+    <button class="menu-btn" id="menuBtn"><i class="fas fa-bars"></i></button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="tours.html" class="active">Tours</a>
+      <a href="destinations.html">Destinations</a>
+      <a href="jobs.html">Jobs</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="jobs.html" class="nav-cta">Apply for Jobs</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero hero-slider" id="pageHero" style="padding:90px 24px 70px;">
+  <div class="hero-inner">
+    <h1 style="font-size:clamp(1.8rem,5vw,2.8rem);">Tour Packages</h1>
+    <p>All-inclusive experiences crafted for curious travellers and busy professionals alike.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-inner">
+
+    <!-- Filter bar -->
+    <div class="filter-bar">
+      <input type="text" id="tourSearch" placeholder="Search tours...">
+      <select id="tourDestination">
+        <option value="">Destination: All</option>
+        <option>Rome, Italy</option>
+        <option>Japanese Alps</option>
+        <option>Dubai, UAE</option>
+        <option>Paris, France</option>
+        <option>Kyoto, Japan</option>
+        <option>Cape Town, South Africa</option>
+      </select>
+      <select id="tourCategory">
+        <option value="">Category: All</option>
+        <option>Cultural</option>
+        <option>Adventure</option>
+        <option>Luxury</option>
+        <option>Budget</option>
+        <option>Beach</option>
+      </select>
+      <select id="tourDuration">
+        <option value="">Duration: All</option>
+        <option value="short">1-3 days</option>
+        <option value="medium">4-7 days</option>
+        <option value="long">8+ days</option>
+      </select>
+      <select id="tourPrice">
+        <option value="">Price: All</option>
+        <option value="0-1500">Under $1,500</option>
+        <option value="1500-3000">$1,500 - $3,000</option>
+        <option value="3000-999999">$3,000+</option>
+      </select>
+      <button onclick="applyTourFilters()"><i class="fas fa-filter"></i> Filter</button>
+    </div>
+
+    <div id="tourCount" style="margin-bottom:16px;color:var(--muted);font-size:0.9rem;"></div>
+    <div class="grid grid-3" id="tourGrid"></div>
+    <div id="tourNoResults" style="display:none;text-align:center;padding:60px 20px;color:var(--muted);">
+      <i class="fas fa-search" style="font-size:2.5rem;margin-bottom:16px;opacity:0.4;"></i>
+      <p>No tours match your filters. Try adjusting your search.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Booking modal -->
+<div class="modal" id="bookingModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeBooking()">&times;</button>
+    <div id="bookingFormWrap">
+      <h2>Book: <span id="bookingTourName"></span></h2>
+      <p style="color:var(--muted);margin-bottom:22px;">Reserve your spot. We'll confirm availability by email within 24 hours.</p>
+      <form id="bookingForm">
+        <div class="form-group"><label>Full name *</label><input type="text" id="bkName" required></div>
+        <div class="form-group"><label>Email *</label><input type="email" id="bkEmail" required></div>
+        <div class="form-group"><label>Phone *</label><input type="tel" id="bkPhone" required></div>
+        <div class="form-group"><label>Preferred travel date *</label><input type="date" id="bkDate" required></div>
+        <div class="form-group"><label>Number of travellers *</label><input type="number" id="bkTravellers" min="1" value="2" required></div>
+        <div class="form-group"><label>Special requests</label><textarea id="bkNotes" maxlength="500" placeholder="Dietary needs, accessibility, etc."></textarea></div>
+        <!-- Honeypot: hidden from real visitors via CSS, bots often fill every field -->
+        <div style="position:absolute;left:-9999px;" aria-hidden="true">
+          <label for="bkWebsite">Leave this field empty</label>
+          <input type="text" id="bkWebsite" class="hp-field" name="website" tabindex="-1" autocomplete="off">
+        </div>
+        <div class="consent-row">
+          <input type="checkbox" id="bookConsent" required>
+          <label for="bookConsent">I agree to the <a href="terms.html" style="color:var(--primary-light);">Terms & Conditions</a> and <a href="privacy.html" style="color:var(--primary-light);">Privacy Policy</a>.</label>
+        </div>
+        <div class="form-group captcha-box" id="bookCaptcha">
+          <label><i class="fas fa-shield-alt" style="color:var(--accent);"></i> Quick check — <span class="captcha-q"></span> *</label>
+          <input type="text" class="captcha-a" required inputmode="numeric" autocomplete="off" placeholder="Your answer">
+        </div>
+        <div id="bookCaptchaError" class="login-error" style="display:none;"><i class="fas fa-exclamation-circle"></i> That answer isn't quite right — please try again.</div>
+        <button type="submit" class="btn btn-primary btn-block">Confirm Booking Request</button>
+      </form>
+    </div>
+    <div id="bookingSuccess" style="display:none;">
+      <div class="alert-success"><i class="fas fa-check-circle"></i> Booking request received!</div>
+      <p style="margin-top:18px;">Your booking reference:</p>
+      <h3 style="color:var(--primary);font-size:1.4rem;margin:8px 0 18px;">TRV-<span id="tourRefNum"></span></h3>
+      <p style="color:var(--muted);font-size:0.9rem;">Our travel team will confirm availability and payment details within 24 hours.</p>
+      <button class="btn btn-primary btn-block" style="margin-top:18px;" onclick="closeBooking()">Done</button>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo"><img src="logo.png" alt="SkyBridge Travels"></div>
+        <p style="font-size:0.88rem;">Combining travel dreams with global career opportunities.</p>
+      </div>
+      <div><h4>Explore</h4><a href="services.html">Services</a><a href="tours.html">Tours</a><a href="destinations.html">Destinations</a><a href="jobs.html">Jobs</a><a href="about.html">About</a></div>
+      <div><h4>Support</h4><a href="contact.html">Contact</a><a href="contact.html#faq">FAQ</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></div>
+      <div><h4>Contact</h4><a href="https://wa.me/233248313606" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> 0248 313 606</a><a href="tel:+233248313606"><i class="fas fa-phone"></i> 0248 313 606</a><a href="mailto:info@skybridgesolutionsgh.com"><i class="fas fa-envelope"></i> info@skybridgesolutionsgh.com</a><a href="https://www.google.com/maps/search/?api=1&query=Central+Market+Police+Station+Ho+Ghana" target="_blank" rel="noopener"><i class="fas fa-map-marker-alt"></i> Ho, Central Market Police Station, Building</a><a href="login.html"><i class="fas fa-lock"></i> Admin</a></div>
+    </div>
+    <div class="disclaimer"><i class="fas fa-exclamation-triangle"></i> SkyBridge Travels does not guarantee employment or visa approval. Verify all listings independently.</div>
+    <div class="footer-bottom"><span>© 2026 SkyBridge Travels.</span><span>Secure & encrypted.</span></div>
+  </div>
+</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-database-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="main.js"></script>
+<script>WW.initHeroSlider('#pageHero');</script>
+<script>
+// Tours now come from the shared WW store (synced live with Firebase — see
+// WWSync in main.js), which the admin dashboard's Tours tab can add to,
+// edit, or remove in real time from any device.
+let TOURS = WW.getTours();
+let filteredTours = [...TOURS];
+
+function renderTours() {
+  const grid = document.getElementById('tourGrid');
+  const noResults = document.getElementById('tourNoResults');
+  const countEl = document.getElementById('tourCount');
+
+  if (filteredTours.length === 0) {
+    grid.innerHTML = '';
+    noResults.style.display = 'block';
+    countEl.textContent = '0 tours found';
+    return;
+  }
+  noResults.style.display = 'none';
+  countEl.textContent = `${filteredTours.length} tour${filteredTours.length > 1 ? 's' : ''} found`;
+
+  grid.innerHTML = filteredTours.map(t => `
+    <div class="card">
+      <div class="card-img" style="background-image:url('${encodeURI(t.img)}');height:200px;">
+        <span class="badge">${wwEsc(t.category)}</span>
+      </div>
+      <div class="card-body">
+        <h3>${wwEsc(t.name)}</h3>
+        <div class="card-meta">
+          <span><i class="fas fa-map-marker-alt"></i>${wwEsc(t.dest)}</span>
+          <span><i class="fas fa-clock"></i>${wwEsc(t.days)} days</span>
+        </div>
+        <p style="font-size:0.88rem;color:var(--muted);margin-bottom:10px;">${wwEsc(t.desc)}</p>
+        <div class="job-tags" style="margin-bottom:10px;">
+          ${t.activities.slice(0,3).map(a => `<span class="tag">${wwEsc(a)}</span>`).join('')}
+        </div>
+        <div style="font-size:0.8rem;color:var(--muted);margin-bottom:12px;">
+          <i class="fas fa-circle" style="color:${t.availability === 'Available' ? '#28a745' : '#f0ad4e'};font-size:0.5rem;"></i>
+          ${wwEsc(t.availability)}
+        </div>
+        <div class="card-price">$${Number(t.price).toLocaleString()} <span>per person</span></div>
+        <div class="card-actions">
+          <button class="btn btn-outline btn-sm" onclick="showTourDetails(${encodeURIComponent(t.id)})">Details</button>
+          ${t.availability === 'Sold out'
+            ? `<button class="btn btn-sm" disabled style="background:#dde5ee;color:var(--muted);cursor:not-allowed;">Sold out</button>`
+            : `<button class="btn btn-primary btn-sm" onclick="openBooking(${encodeURIComponent(t.id)})">Book Now</button>`}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function applyTourFilters() {
+  const q = document.getElementById('tourSearch').value.toLowerCase().trim();
+  const dest = document.getElementById('tourDestination').value;
+  const cat = document.getElementById('tourCategory').value;
+  const dur = document.getElementById('tourDuration').value;
+  const priceRange = document.getElementById('tourPrice').value;
+
+  filteredTours = TOURS.filter(t => {
+    if (q && !(t.name.toLowerCase().includes(q) || t.dest.toLowerCase().includes(q) || t.desc.toLowerCase().includes(q))) return false;
+    if (dest && t.dest !== dest) return false;
+    if (cat && t.category !== cat) return false;
+    if (dur === 'short' && t.days > 3) return false;
+    if (dur === 'medium' && (t.days < 4 || t.days > 7)) return false;
+    if (dur === 'long' && t.days < 8) return false;
+    if (priceRange) {
+      const [min, max] = priceRange.split('-').map(Number);
+      if (t.price < min || t.price > max) return false;
+    }
+    return true;
+  });
+  renderTours();
+}
+
+function showTourDetails(id) {
+  window.location.href = `tour-detail.html?id=${id}`;
+}
+
+let currentTour = null;
+const bookCaptchaBoxTours = document.getElementById('bookCaptcha');
+function openBooking(id) {
+  currentTour = TOURS.find(t => t.id === id);
+  if (!currentTour) return;
+  document.getElementById('bookingTourName').textContent = currentTour.name;
+  document.getElementById('bookingFormWrap').style.display = 'block';
+  document.getElementById('bookingSuccess').style.display = 'none';
+  document.getElementById('bookingForm').reset();
+  document.getElementById('bookCaptchaError').style.display = 'none';
+  WW.newCaptcha(bookCaptchaBoxTours);
+  document.getElementById('bookingModal').classList.add('open');
+}
+function closeBooking() {
+  document.getElementById('bookingModal').classList.remove('open');
+}
+
+document.getElementById('bookingForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const form = document.getElementById('bookingForm');
+
+  // Silently drop likely-bot submissions (honeypot filled)
+  if (WW.isHoneypotFilled(form)) { form.reset(); return; }
+
+  if (!WW.checkCaptcha(bookCaptchaBoxTours)) {
+    document.getElementById('bookCaptchaError').style.display = 'block';
+    WW.newCaptcha(bookCaptchaBoxTours);
+    return;
+  }
+  document.getElementById('bookCaptchaError').style.display = 'none';
+
+  const booking = WW.addBooking({
+    tourId: currentTour.id,
+    tourName: currentTour.name,
+    name: document.getElementById('bkName').value.trim(),
+    email: document.getElementById('bkEmail').value.trim(),
+    phone: document.getElementById('bkPhone').value.trim(),
+    date: document.getElementById('bkDate').value,
+    travellers: document.getElementById('bkTravellers').value,
+    notes: document.getElementById('bkNotes').value.trim()
+  });
+  document.getElementById('tourRefNum').textContent = booking.id.replace('TRV-', '');
+  document.getElementById('bookingFormWrap').style.display = 'none';
+  document.getElementById('bookingSuccess').style.display = 'block';
+});
+
+document.getElementById('tourSearch').addEventListener('input', applyTourFilters);
+document.querySelectorAll('#tourDestination, #tourCategory, #tourDuration, #tourPrice').forEach(el => {
+  el.addEventListener('change', applyTourFilters);
+});
+
+// Pre-fill from URL
+const params = new URLSearchParams(window.location.search);
+const q = params.get('q');
+if (q) document.getElementById('tourSearch').value = q;
+
+applyTourFilters();
+
+// Live updates: reflect admin changes (from any device) without a manual refresh.
+document.addEventListener('ww:tours-updated', () => {
+  TOURS = WW.getTours();
+  applyTourFilters();
+});
+</script>
+</body>
+</html>

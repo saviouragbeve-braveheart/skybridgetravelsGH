@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://www.gstatic.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://images.unsplash.com; connect-src 'self' https://*.firebaseio.com wss://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://www.googleapis.com; frame-src https://skybridge-travels-database.firebaseapp.com; frame-ancestors 'self'; base-uri 'self'; object-src 'none'; form-action 'self';">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="index, follow">
+<title>Admin Dashboard — SkyBridge Travels</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <h3><i class="fas fa-globe-americas"></i> SkyBridge Travels</h3>
+    <a href="#" class="active" data-tab="overview"><i class="fas fa-chart-pie"></i> <span>Overview</span></a>
+    <a href="#" data-tab="jobs"><i class="fas fa-briefcase"></i> <span>Jobs</span></a>
+    <a href="#" data-tab="applications"><i class="fas fa-file-alt"></i> <span>Applications</span></a>
+    <a href="#" data-tab="tours"><i class="fas fa-suitcase"></i> <span>Tours</span></a>
+    <a href="#" data-tab="destinations"><i class="fas fa-map-marked-alt"></i> <span>Destinations</span></a>
+    <a href="#" data-tab="bookings"><i class="fas fa-calendar-check"></i> <span>Bookings</span></a>
+    <a href="#" data-tab="messages"><i class="fas fa-envelope-open-text"></i> <span>Messages</span></a>
+    <a href="#" data-tab="settings"><i class="fas fa-cog"></i> <span>Settings</span></a>
+    <a href="index.html" style="margin-top:30px;"><i class="fas fa-external-link-alt"></i> <span>View Site</span></a>
+    <a href="#" id="logoutBtn" style="color:#ff9b9b;"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
+  </aside>
+
+  <main class="admin-main">
+    <div class="admin-header">
+      <h1 id="pageTitle">Overview</h1>
+      <div style="font-size:0.88rem;color:var(--muted);">Signed in as <strong>admin</strong> · <span id="liveClock"></span></div>
+    </div>
+
+    <!-- OVERVIEW TAB -->
+    <div id="tab-overview">
+      <div class="stat-grid">
+        <div class="stat-card"><div class="num" id="statJobs">0</div><div class="label">Active Jobs</div></div>
+        <div class="stat-card"><div class="num" id="statApps">0</div><div class="label">Applications</div></div>
+        <div class="stat-card"><div class="num" id="statTours">0</div><div class="label">Tour Packages</div></div>
+        <div class="stat-card"><div class="num" id="statDests">0</div><div class="label">Destinations</div></div>
+        <div class="stat-card"><div class="num" id="statBookings">0</div><div class="label">Tour Bookings</div></div>
+        <div class="stat-card"><div class="num" id="statPending">0</div><div class="label">Pending Actions</div></div>
+      </div>
+
+      <div class="grid grid-2" style="margin-bottom:24px;">
+        <div class="chart-card">
+          <h4>Applications by status</h4>
+          <div class="bar-chart" id="chartApps"></div>
+        </div>
+        <div class="chart-card">
+          <h4>Bookings by status</h4>
+          <div class="bar-chart" id="chartBookings"></div>
+        </div>
+      </div>
+
+      <div class="grid grid-2" style="margin-bottom:24px;">
+        <div class="chart-card">
+          <h4>Jobs by category</h4>
+          <div class="bar-chart" id="chartJobsCat"></div>
+        </div>
+        <div class="chart-card">
+          <h4>Tours by category</h4>
+          <div class="bar-chart" id="chartToursCat"></div>
+        </div>
+      </div>
+
+      <div class="card" style="padding:28px;">
+        <h3 style="color:var(--primary);margin-bottom:14px;">Recent Applications</h3>
+        <div class="table-scroll">
+        <table class="data-table">
+          <thead><tr><th>Ref</th><th>Applicant</th><th>Job</th><th>Status</th><th>Date</th></tr></thead>
+          <tbody id="recentAppsTable"></tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- JOBS TAB -->
+    <div id="tab-jobs" style="display:none;">
+      <button class="btn btn-primary" style="margin-bottom:20px;" onclick="openJobModal()"><i class="fas fa-plus"></i> Add Job</button>
+      <div class="table-scroll">
+      <table class="data-table">
+        <thead><tr><th>Title</th><th>Company</th><th>Country</th><th>Category</th><th>Type</th><th>Actions</th></tr></thead>
+        <tbody id="jobsTable"></tbody>
+      </table>
+      </div>
+    </div>
+
+    <!-- APPLICATIONS TAB -->
+    <div id="tab-applications" style="display:none;">
+      <p class="field-hint" style="margin-bottom:14px;">Approving or rejecting an application automatically prepares an email + WhatsApp notification for the candidate — find it under the <strong>Messages</strong> tab, one click to send.</p>
+      <div class="table-scroll">
+      <table class="data-table">
+        <thead><tr><th>Ref</th><th>Applicant</th><th>Email</th><th>Job</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="appsTable"></tbody>
+      </table>
+      </div>
+    </div>
+
+    <!-- TOURS TAB -->
+    <div id="tab-tours" style="display:none;">
+      <button class="btn btn-primary" style="margin-bottom:20px;" onclick="openTourModal()"><i class="fas fa-plus"></i> Add Tour</button>
+      <div class="table-scroll">
+      <table class="data-table">
+        <thead><tr><th>Tour</th><th>Destination</th><th>Days</th><th>Price</th><th>Category</th><th>Availability</th><th>Actions</th></tr></thead>
+        <tbody id="toursTable"></tbody>
+      </table>
+      </div>
+    </div>
+
+    <!-- DESTINATIONS TAB -->
+    <div id="tab-destinations" style="display:none;">
+      <button class="btn btn-primary" style="margin-bottom:20px;" onclick="openDestModal()"><i class="fas fa-plus"></i> Add Destination</button>
+      <div class="table-scroll">
+      <table class="data-table">
+        <thead><tr><th>Destination</th><th>Country</th><th>Region</th><th>Packages</th><th>Actions</th></tr></thead>
+        <tbody id="destsTable"></tbody>
+      </table>
+      </div>
+    </div>
+
+    <!-- BOOKINGS TAB -->
+    <div id="tab-bookings" style="display:none;">
+      <p class="field-hint" style="margin-bottom:14px;">Confirming or cancelling a booking automatically prepares a notification for the traveller — find it under <strong>Messages</strong>.</p>
+      <div class="table-scroll">
+      <table class="data-table">
+        <thead><tr><th>Ref</th><th>Traveller</th><th>Tour</th><th>Date</th><th>Travellers</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="bookingsTable"></tbody>
+      </table>
+      </div>
+    </div>
+
+    <!-- MESSAGES TAB -->
+    <div id="tab-messages" style="display:none;">
+      <div class="info-banner"><i class="fas fa-info-circle"></i> A static, front-end-only site can't silently send email/WhatsApp in the background — that needs a server holding API credentials. Instead, SkyBridge Travels auto-drafts every message below; click "Open email" or "Open WhatsApp" to send it in one tap.</div>
+      <div id="messagesList"></div>
+    </div>
+
+    <!-- SETTINGS TAB -->
+    <div id="tab-settings" style="display:none;">
+      <div class="card" style="padding:28px;margin-bottom:20px;">
+        <h3 style="color:var(--primary);margin-bottom:18px;">Site Settings</h3>
+        <form id="settingsForm">
+          <div class="settings-grid">
+            <div class="form-group"><label>WhatsApp number (digits only, with country code)</label><input type="text" id="setWhatsapp" placeholder="+233 24 123 4567"></div>
+            <div class="form-group"><label>Organisation notification email</label><input type="email" id="setEmail" placeholder="info@skybridgesolutionsgh.com"></div>
+          </div>
+          <p style="color:var(--muted);font-size:0.82rem;margin-top:4px;"><i class="fas fa-info-circle"></i> The three rotating hero photos are image files (<code>img/hero-tours.jpg</code>, <code>img/hero-destinations.jpg</code>, <code>img/hero-jobs.jpg</code>) — replace those files to change them; see README.md.</p>
+          <button type="submit" class="btn btn-primary" style="margin-top:10px;">Save Settings</button>
+        </form>
+      </div>
+
+      <div class="card" style="padding:28px;">
+        <h3 style="color:var(--primary);margin-bottom:18px;">Change Admin Password</h3>
+        <p class="field-hint" style="margin-bottom:14px;">Changes your real Firebase Authentication password — this takes effect everywhere immediately, on every device. If you've been signed in a while, Firebase may ask you to log out and back in first before it allows the change.</p>
+        <form id="passwordForm">
+          <div class="form-group"><label>New password</label><input type="password" id="newPassword" required minlength="8"></div>
+          <div class="form-group"><label>Confirm new password</label><input type="password" id="confirmPassword" required minlength="8"></div>
+          <button type="submit" class="btn btn-primary">Update Password</button>
+        </form>
+        <div id="pwSuccess" class="alert-success" style="display:none;margin-top:14px;"><i class="fas fa-check-circle"></i> Password updated.</div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- APPLICATION / BOOKING DETAILS MODAL -->
+<div class="modal" id="detailModal">
+  <div class="modal-box detail-box">
+    <button class="modal-close" onclick="closeDetailModal()" aria-label="Close">&times;</button>
+    <div id="detailBody"></div>
+  </div>
+</div>
+
+<!-- JOB EDIT MODAL -->
+<div class="modal" id="jobModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeJobModal()">&times;</button>
+    <h2 id="jobModalTitle">Add Job</h2>
+    <form id="jobForm">
+      <input type="hidden" id="jobId">
+      <div class="form-group"><label>Job Title *</label><input type="text" id="jobTitle" required></div>
+      <div class="form-group"><label>Company *</label><input type="text" id="jobCompany" required></div>
+      <div class="form-group"><label>Country *</label><input type="text" id="jobCountry" required></div>
+      <div class="form-group"><label>City *</label><input type="text" id="jobCity" required></div>
+      <div class="form-group"><label>Category *</label><input type="text" id="jobCategory" required placeholder="e.g. Engineering"></div>
+      <div class="form-group"><label>Industry *</label><input type="text" id="jobIndustry" required></div>
+      <div class="form-group"><label>Employment Type *</label>
+        <select id="jobType" required>
+          <option>Full-time</option><option>Part-time</option><option>Contract</option><option>Internship</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Salary Range</label><input type="text" id="jobSalary" placeholder="e.g. AED 1,100 - 1,300 / month"></div>
+      <div class="form-group"><label>Application Deadline</label><input type="text" id="jobDeadline" placeholder="e.g. 2026-12-01, or 'Ongoing — limited slots'"></div>
+      <div class="form-group"><label>Description</label><textarea id="jobDescription"></textarea></div>
+      <div class="form-group"><label>Requirements <span style="font-weight:400;color:var(--muted);">(one per line)</span></label><textarea id="jobRequirements" placeholder="Valid passport&#10;Good health&#10;Age 21-37"></textarea></div>
+      <div class="form-group"><label>What's Provided <span style="font-weight:400;color:var(--muted);">(one per line, optional)</span></label><textarea id="jobBenefits" placeholder="Accommodation provided&#10;Transportation provided"></textarea></div>
+      <button type="submit" class="btn btn-primary btn-block">Save Job</button>
+    </form>
+  </div>
+</div>
+
+<!-- TOUR EDIT MODAL -->
+<div class="modal" id="tourModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeTourModal()">&times;</button>
+    <h2 id="tourModalTitle">Add Tour</h2>
+    <form id="tourForm">
+      <input type="hidden" id="tourId">
+      <div class="form-group"><label>Tour Name *</label><input type="text" id="tourName" required></div>
+      <div class="form-group"><label>Destination *</label><input type="text" id="tourDest" required placeholder="e.g. Rome, Italy"></div>
+      <div class="form-group"><label>Duration (days) *</label><input type="number" id="tourDays" min="1" required></div>
+      <div class="form-group"><label>Price (USD) *</label><input type="number" id="tourPrice" min="0" required></div>
+      <div class="form-group"><label>Category *</label>
+        <select id="tourCategory" required>
+          <option>Cultural</option><option>Adventure</option><option>Luxury</option><option>Budget</option><option>Beach</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Availability</label>
+        <select id="tourAvailability"><option>Available</option><option>Limited spots</option><option>Sold out</option></select>
+      </div>
+      <div class="form-group"><label>Image URL</label><input type="text" id="tourImg" placeholder="https://..."></div>
+      <div class="form-group"><label>Description</label><textarea id="tourDesc"></textarea></div>
+      <div class="form-group"><label>Included activities (comma separated)</label><textarea class="chips-input" id="tourActivities" placeholder="Colosseum tour, Vatican Museums, ..."></textarea></div>
+      <button type="submit" class="btn btn-primary btn-block">Save Tour</button>
+    </form>
+  </div>
+</div>
+
+<!-- DESTINATION EDIT MODAL -->
+<div class="modal" id="destModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeDestModal()">&times;</button>
+    <h2 id="destModalTitle">Add Destination</h2>
+    <form id="destForm">
+      <input type="hidden" id="destId">
+      <div class="form-group"><label>Destination Name *</label><input type="text" id="destName" required></div>
+      <div class="form-group"><label>Country *</label><input type="text" id="destCountry" required></div>
+      <div class="form-group"><label>Region *</label>
+        <select id="destRegionSel" required>
+          <option>Europe</option><option>Asia</option><option>Middle East</option><option>Africa</option><option>Americas</option><option>Oceania</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Image URL</label><input type="text" id="destImg" placeholder="https://..."></div>
+      <div class="form-group"><label>Description</label><textarea id="destDesc"></textarea></div>
+      <div class="form-group"><label>Top attractions (comma separated)</label><textarea class="chips-input" id="destAttractions" placeholder="Eiffel Tower, Louvre Museum, ..."></textarea></div>
+      <p class="field-hint">Tip: the number of tour packages shown for this destination is calculated automatically from the Tours tab.</p>
+      <button type="submit" class="btn btn-primary btn-block" style="margin-top:12px;">Save Destination</button>
+    </form>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-database-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="main.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

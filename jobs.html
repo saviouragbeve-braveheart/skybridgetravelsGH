@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://www.gstatic.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://images.unsplash.com; connect-src 'self' https://*.firebaseio.com wss://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://www.googleapis.com; frame-src https://skybridge-travels-database.firebaseapp.com; frame-ancestors 'self'; base-uri 'self'; object-src 'none'; form-action 'self';">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="index, follow">
+<title>International Jobs - SkyBridge Travels</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo"><img src="logo.png" alt="SkyBridge Travels" class="logo-img"></a>
+    <button class="menu-btn" id="menuBtn"><i class="fas fa-bars"></i></button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a><a href="tours.html">Tours</a>
+      <a href="destinations.html">Destinations</a>
+      <a href="jobs.html" class="active">Jobs</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="jobs.html" class="nav-cta">Apply for Jobs</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero hero-slider" id="pageHero" style="padding:90px 24px 70px;">
+  <div class="hero-inner">
+    <div class="hero-tagline">Study. Work. Visit.</div>
+    <h1 style="font-size:clamp(1.8rem,5vw,2.8rem);">International Jobs</h1>
+    <p>Browse verified opportunities from trusted employers worldwide, all guided end-to-end by SkyBridge Travels.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-inner">
+    <div class="section-head">
+      <div>
+        <h2>Open Vacancies</h2>
+        <p>Filter by country, category or job type to find the right fit.</p>
+      </div>
+    </div>
+
+    <div class="filter-bar">
+      <input type="text" id="searchInput" placeholder="Search job title, company...">
+      <select id="filterCountry"><option value="">Country: Any</option></select>
+      <select id="filterCity"><option value="">City: Any</option></select>
+      <select id="filterCategory"><option value="">Category: Any</option></select>
+      <select id="filterIndustry"><option value="">Industry: Any</option></select>
+      <select id="filterType"><option value="">Type: Any</option></select>
+      <select id="filterDate">
+        <option value="">Date Posted: Any</option>
+        <option value="1">Last 24 hours</option>
+        <option value="7">Last 7 days</option>
+        <option value="30">Last 30 days</option>
+      </select>
+      <button onclick="applyFilters()"><i class="fas fa-filter"></i> Filter</button>
+    </div>
+
+    <div id="jobsCount" style="margin-bottom:16px;color:var(--muted);font-size:0.9rem;"></div>
+    <div class="grid grid-3" id="jobsList"></div>
+    <div id="noResults" style="display:none;text-align:center;padding:60px 20px;color:var(--muted);">
+      <i class="fas fa-search" style="font-size:2.5rem;margin-bottom:16px;opacity:0.4;"></i>
+      <p>No jobs match your filters. Try adjusting your search.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div><div class="footer-logo"><img src="logo.png" alt="SkyBridge Travels"></div><p style="font-size:0.88rem;">Combining travel dreams with global career opportunities.</p></div>
+      <div><h4>Explore</h4><a href="services.html">Services</a><a href="tours.html">Tours</a><a href="destinations.html">Destinations</a><a href="jobs.html">Jobs</a><a href="about.html">About</a></div>
+      <div><h4>Support</h4><a href="contact.html">Contact</a><a href="contact.html#faq">FAQ</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></div>
+      <div><h4>Contact</h4><a href="https://wa.me/233248313606" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> 0248 313 606</a><a href="tel:+233248313606"><i class="fas fa-phone"></i> 0248 313 606</a><a href="mailto:info@skybridgesolutionsgh.com"><i class="fas fa-envelope"></i> info@skybridgesolutionsgh.com</a><a href="https://www.google.com/maps/search/?api=1&query=Central+Market+Police+Station+Ho+Ghana" target="_blank" rel="noopener"><i class="fas fa-map-marker-alt"></i> Ho, Central Market Police Station, Building</a><a href="login.html"><i class="fas fa-lock"></i> Admin</a></div>
+    </div>
+    <div class="disclaimer"><i class="fas fa-exclamation-triangle"></i> SkyBridge Travels does not guarantee employment or visa approval. Verify all listings independently.</div>
+    <div class="footer-bottom"><span>© 2026 SkyBridge Travels.</span><span>Secure & encrypted.</span></div>
+  </div>
+</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-database-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="main.js"></script>
+<script>WW.initHeroSlider('#pageHero');</script>
+<script src="jobs.js"></script>
+</body>
+</html>
